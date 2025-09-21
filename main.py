@@ -127,10 +127,10 @@ def main():
         start = time.perf_counter()
         aStar1 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity, SLD_TO_BUCHAREST, heuristic_type=1)
         end = time.perf_counter()
-        correctnessResults["A*"].append(checkCorrect(aStar, startCity, endCity))
-        cityVisitResults["A*"].append(aStar.numCityVisits)
-        timeResults["A*"].append(end - start)
-        spaceResults["A*"].append(aStar.maxQueueSize)
+        correctnessResults["A* 1"].append(checkCorrect(aStar1, startCity, endCity))
+        cityVisitResults["A* 1"].append(aStar1.numCityVisits)
+        timeResults["A* 1"].append(end - start)
+        spaceResults["A* 1"].append(aStar1.maxQueueSize)
 
         # A*, heuristic 2
         start = time.perf_counter()
@@ -143,10 +143,6 @@ def main():
 
     # Output
     # In the future, have also print out to csv or excel spreadsheet for easy tabling/graphing... maybe look into pandas
-        correctnessResults["A*"].append(checkCorrect(aStar, startCity, endCity))
-        cityVisitResults["A*"].append(aStar.numCityVisits)
-        timeResults["A*"].append(end - start)
-        spaceResults["A*"].append(aStar.maxQueueSize)
 
     print("Correctness results:")
     print(correctnessResults)
