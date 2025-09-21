@@ -17,6 +17,7 @@ class AStarSearch:
         searchResult: list of cities in path (empty if not found)
         numCityVisits: number of nodes expanded
         maxQueueSize: max frontier size
+        pathCost: cost of found path
     """
     
     def __init__(self, graph: Dict[Any, List[Tuple[Any, int]]], start: Any, goal: Any, sld_bucharest: Dict[str,int], heuristic_type: int = 1):
@@ -28,9 +29,11 @@ class AStarSearch:
 
         self.numCityVisits = 0
         self.maxQueueSize = 0
+        self.pathCost = 0
         self.searchResult: List[Any] = []
 
         self.searchResult = self.a_star_search()
+        self.pathCost = self.calculatePathCost(self.searchResult)
 
     # Heuristic 
     def heuristic(self, city: Any) -> float:
@@ -80,3 +83,16 @@ class AStarSearch:
                 heapq.heappush(frontier, (f_new, next(counter), g_new, neighbor, path + [neighbor]))
 
         return []  # no path found
+    
+    def calculatePathCost(self, path):
+        totalCost = 0
+        for i in range(len(path) - 1):
+            currentCity = path[i]
+            nextCity = path[i+1]
+        
+            # Find the cost to go from the current city to the next one
+            for neighbor, cost in self.graph[currentCity]:
+                if neighbor == nextCity:
+                    totalCost += cost
+                    break 
+        return totalCost

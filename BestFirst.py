@@ -59,8 +59,7 @@ class BestFirstSearch:
                     # Create a node and push it onto the fringe
                     node = (hCost, self.entryCount, neighborEnum, newPath)
                     heapq.heappush(self.fringe, node)
-                    if (len(self.fringe) > self.maxQueueSize):
-                        self.maxQueueSize = len(self.fringe)
+                    self.maxQueueSize = max(self.maxQueueSize, len(self.fringe))
 
         print("No path found.")
         self.searchResult = None

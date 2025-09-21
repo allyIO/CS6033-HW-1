@@ -93,6 +93,8 @@ def main():
         startCity = random.choice(list(Cities))
         endCity = random.choice(list(Cities))
         
+        print(str(startCity) + " --> " + str(endCity))
+
         # BFS
         start = time.perf_counter()
         bfs = BFS(ROAD_ADJ_LIST, startCity, endCity)
@@ -113,12 +115,14 @@ def main():
 
         # Best First
         start = time.perf_counter()
-        bestFirst = BFS(ROAD_ADJ_LIST, startCity, endCity)
+        bestFirst = BestFirstSearch(ROAD_ADJ_LIST, startCity, endCity)
         end = time.perf_counter()
         correctnessResults["Best First"].append(checkCorrect(bestFirst, startCity, endCity))
         cityVisitResults["Best First"].append(bestFirst.numCityVisits)
         timeResults["Best First"].append(end - start)
         spaceResults["Best First"].append(bestFirst.maxQueueSize)
+        print("Best: " + str(bestFirst.searchResult))
+        print(" cost "+ str(bestFirst.pathCost))
 
         # A*, heuristic 1
         start = time.perf_counter()
@@ -128,6 +132,8 @@ def main():
         cityVisitResults["A* 1"].append(aStar1.numCityVisits)
         timeResults["A* 1"].append(end - start)
         spaceResults["A* 1"].append(aStar1.maxQueueSize)
+        print("A* 1: " + str(aStar1.searchResult))
+        print(" cost "+ str(aStar1.pathCost))
 
         # A*, heuristic 2
         start = time.perf_counter()
@@ -137,6 +143,8 @@ def main():
         cityVisitResults["A* 2"].append(aStar2.numCityVisits)
         timeResults["A* 2"].append(end - start)
         spaceResults["A* 2"].append(aStar2.maxQueueSize)
+        print("A* 2: " + str(aStar2.searchResult))
+        print(" cost "+ str(aStar2.pathCost))
 
     # Output
     # In the future, have also print out to csv or excel spreadsheet for easy tabling/graphing... maybe look into pandas
