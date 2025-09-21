@@ -100,6 +100,7 @@ def main():
         correctnessResults["BFS"].append(checkCorrect(bfs, startCity, endCity))
         cityVisitResults["BFS"].append(bfs.numCityVisits)
         timeResults["BFS"].append(end - start)
+        timeResults["BFS"].append(end - start)
         spaceResults["BFS"].append(bfs.maxQueueSize)
 
         # DFS
@@ -109,6 +110,7 @@ def main():
         correctnessResults["DFS"].append(checkCorrect(dfs, startCity, endCity))
         cityVisitResults["DFS"].append(dfs.numCityVisits)
         timeResults["DFS"].append(end - start)
+        timeResults["DFS"].append(end - start)
         spaceResults["DFS"].append(dfs.maxQueueSize)
 
         # Best First
@@ -117,6 +119,7 @@ def main():
         end = time.perf_counter()
         correctnessResults["Best First"].append(checkCorrect(bestFirst, startCity, endCity))
         cityVisitResults["Best First"].append(bestFirst.numCityVisits)
+        timeResults["Best First"].append(end - start)
         timeResults["Best First"].append(end - start)
         spaceResults["Best First"].append(bestFirst.maxQueueSize)
 
