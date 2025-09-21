@@ -91,7 +91,6 @@ def main():
         # Best 
         start = time.perf_counter()
         bestFirst = BestFirstSearch(roadMapAdjList, startCity, endCity)
-        bestFirst.solve()
         end = time.perf_counter()
         correctnessResults["Best First"].append(checkCorrect(bestFirst, startCity, endCity))
         cityVisitResults["Best First"].append(bestFirst.numCityVisits)
