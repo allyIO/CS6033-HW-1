@@ -76,7 +76,7 @@ def main():
         end = time.perf_counter()
         correctnessResults["BFS"].append(checkCorrect(bfs, startCity, endCity))
         cityVisitResults["BFS"].append(bfs.numCityVisits)
-        timeResults["BFS"].append(start - end)
+        timeResults["BFS"].append(end - start)
         spaceResults["BFS"].append(bfs.maxQueueSize)
 
         # DFS
@@ -85,7 +85,7 @@ def main():
         end = time.perf_counter()
         correctnessResults["DFS"].append(checkCorrect(dfs, startCity, endCity))
         cityVisitResults["DFS"].append(dfs.numCityVisits)
-        timeResults["DFS"].append(start - end)
+        timeResults["DFS"].append(end - start)
         spaceResults["DFS"].append(dfs.maxQueueSize)
 
         # Best 
@@ -95,7 +95,7 @@ def main():
         end = time.perf_counter()
         correctnessResults["Best First"].append(checkCorrect(bestFirst, startCity, endCity))
         cityVisitResults["Best First"].append(bestFirst.numCityVisits)
-        timeResults["Best First"].append(start - end)
+        timeResults["Best First"].append(end - start)
         spaceResults["Best First"].append(bestFirst.maxQueueSize)
 
         # A*, heuristic 1
@@ -104,7 +104,7 @@ def main():
         end = time.perf_counter()
         correctnessResults["A*"].append(checkCorrect(aStar, startCity, endCity))
         cityVisitResults["A*"].append(aStar.numCityVisits)
-        timeResults["A*"].append(start - end)
+        timeResults["A*"].append(end - start)
         spaceResults["A*"].append(aStar.maxQueueSize)
 
         # A*, heuristic 2
@@ -113,7 +113,7 @@ def main():
         end = time.perf_counter()
         correctnessResults["A*"].append(checkCorrect(aStar, startCity, endCity))
         cityVisitResults["A*"].append(aStar.numCityVisits)
-        timeResults["A*"].append(start - end)
+        timeResults["A*"].append(end - start)
         spaceResults["A*"].append(aStar.maxQueueSize)
 
     print("Correctness results:")
