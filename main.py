@@ -30,8 +30,32 @@ class Cities(Enum):
     VASLUI = 19
     ZERIND = 20
 
+SLD_TO_BUCHAREST = {
+    "ARAD": 366,
+    "BUCHAREST": 0,
+    "CRAIOVA": 160,
+    "DROBETA": 242,
+    "EFORIE": 161,
+    "FAGARAS": 176,
+    "GIURGIU": 77,
+    "HIRSOVA": 151,
+    "IASI": 226,
+    "LUGOJ": 244,
+    "MEHADIA": 241,
+    "NEAMT": 234,
+    "ORADEA": 380,
+    "PITESTI": 100,
+    "RIMNICU_VILCEA": 193,
+    "SIBIU": 253,
+    "TIMISOARA": 329,
+    "URZICENI": 80,
+    "VASLUI": 199,
+    "ZERIND": 374
+}
+
+
 # Romania map adjacency list
-roadMapAdjList = {
+ROAD_ADJ_LIST = {
     Cities.ARAD: [(Cities.SIBIU, 140), (Cities.TIMISOARA, 118), (Cities.ZERIND, 75)],
     Cities.BUCHAREST: [(Cities.FAGARAS, 211), (Cities.GIURGIU, 90), (Cities.PITESTI, 101),(Cities.URZICENI, 85)],
     Cities.CRAIOVA: [(Cities.DROBETA, 120), (Cities.PITESTI, 138), (Cities.RIMNICU_VILCEA, 146)],
@@ -59,48 +83,49 @@ def checkCorrect(search, startCity, endCity):
     return True
 
 def main():
-    correctnessResults = {"BFS": [], "DFS": [], "Best First": [], "A*": []}
-    cityVisitResults = {"BFS": [], "DFS": [], "Best First": [], "A*": []}
-    timeResults = {"BFS": [], "DFS": [], "Best First": [], "A*": []}
-    spaceResults = {"BFS": [], "DFS": [], "Best First": [], "A*": []}
+    correctnessResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
+    cityVisitResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
+    timeResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
+    spaceResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
 
     for x in range(5):
         # from Cities enum, randomly pick 2 and use as indices in roadMapAdjList for start and end cities
         startCity = random.choice(list(Cities))
         endCity = random.choice(list(Cities))
         
-        print(f"From {startCity} to {endCity}")
         # BFS
         start = time.perf_counter()
-        bfs = BFS(roadMapAdjList, startCity, endCity)
+        bfs = BFS(ROAD_ADJ_LIST, startCity, endCity)
         end = time.perf_counter()
         correctnessResults["BFS"].append(checkCorrect(bfs, startCity, endCity))
         cityVisitResults["BFS"].append(bfs.numCityVisits)
+        timeResults["BFS"].append(end - start)
         timeResults["BFS"].append(end - start)
         spaceResults["BFS"].append(bfs.maxQueueSize)
 
         # DFS
         start = time.perf_counter()
-        dfs = DFS(roadMapAdjList, startCity, endCity)
+        dfs = DFS(ROAD_ADJ_LIST, startCity, endCity)
         end = time.perf_counter()
         correctnessResults["DFS"].append(checkCorrect(dfs, startCity, endCity))
         cityVisitResults["DFS"].append(dfs.numCityVisits)
         timeResults["DFS"].append(end - start)
+        timeResults["DFS"].append(end - start)
         spaceResults["DFS"].append(dfs.maxQueueSize)
 
-        # Best 
+        # Best First
         start = time.perf_counter()
-        bestFirst = BestFirstSearch(roadMapAdjList, startCity, endCity)
-        bestFirst.solve()
+        bestFirst = BFS(ROAD_ADJ_LIST, startCity, endCity)
         end = time.perf_counter()
         correctnessResults["Best First"].append(checkCorrect(bestFirst, startCity, endCity))
         cityVisitResults["Best First"].append(bestFirst.numCityVisits)
+        timeResults["Best First"].append(end - start)
         timeResults["Best First"].append(end - start)
         spaceResults["Best First"].append(bestFirst.maxQueueSize)
 
         # A*, heuristic 1
         start = time.perf_counter()
-        aStar = AStarSearch(roadMapAdjList, startCity, endCity)
+        aStar1 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity, SLD_TO_BUCHAREST, heuristic_type=1)
         end = time.perf_counter()
         correctnessResults["A*"].append(checkCorrect(aStar, startCity, endCity))
         cityVisitResults["A*"].append(aStar.numCityVisits)
@@ -109,8 +134,15 @@ def main():
 
         # A*, heuristic 2
         start = time.perf_counter()
-        aStar = AStarSearch(roadMapAdjList, startCity, endCity)
+        aStar2 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity, SLD_TO_BUCHAREST, heuristic_type=2)
         end = time.perf_counter()
+        correctnessResults["A* 2"].append(checkCorrect(aStar2, startCity, endCity))
+        cityVisitResults["A* 2"].append(aStar2.numCityVisits)
+        timeResults["A* 2"].append(end - start)
+        spaceResults["A* 2"].append(aStar2.maxQueueSize)
+
+    # Output
+    # In the future, have also print out to csv or excel spreadsheet for easy tabling/graphing... maybe look into pandas
         correctnessResults["A*"].append(checkCorrect(aStar, startCity, endCity))
         cityVisitResults["A*"].append(aStar.numCityVisits)
         timeResults["A*"].append(end - start)
