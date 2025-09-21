@@ -30,6 +30,30 @@ class Cities(Enum):
     VASLUI = 19
     ZERIND = 20
 
+SLD_TO_BUCHAREST = {
+    "ARAD": 366,
+    "BUCHAREST": 0,
+    "CRAIOVA": 160,
+    "DROBETA": 242,
+    "EFORIE": 161,
+    "FAGARAS": 176,
+    "GIURGIU": 77,
+    "HIRSOVA": 151,
+    "IASI": 226,
+    "LUGOJ": 244,
+    "MEHADIA": 241,
+    "NEAMT": 234,
+    "ORADEA": 380,
+    "PITESTI": 100,
+    "RIMNICU_VILCEA": 193,
+    "SIBIU": 253,
+    "TIMISOARA": 329,
+    "URZICENI": 80,
+    "VASLUI": 199,
+    "ZERIND": 374
+}
+
+
 # Romania map adjacency list
 ROAD_ADJ_LIST = {
     Cities.ARAD: [(Cities.SIBIU, 140), (Cities.TIMISOARA, 118), (Cities.ZERIND, 75)],
@@ -75,7 +99,7 @@ def main():
         end = time.perf_counter()
         correctnessResults["BFS"].append(checkCorrect(bfs, startCity, endCity))
         cityVisitResults["BFS"].append(bfs.numCityVisits)
-        timeResults["BFS"].append(start - end)
+        timeResults["BFS"].append(end - start)
         spaceResults["BFS"].append(bfs.maxQueueSize)
 
         # DFS
@@ -84,7 +108,7 @@ def main():
         end = time.perf_counter()
         correctnessResults["DFS"].append(checkCorrect(dfs, startCity, endCity))
         cityVisitResults["DFS"].append(dfs.numCityVisits)
-        timeResults["DFS"].append(start - end)
+        timeResults["DFS"].append(end - start)
         spaceResults["DFS"].append(dfs.maxQueueSize)
 
         # Best First
@@ -93,25 +117,25 @@ def main():
         end = time.perf_counter()
         correctnessResults["Best First"].append(checkCorrect(bestFirst, startCity, endCity))
         cityVisitResults["Best First"].append(bestFirst.numCityVisits)
-        timeResults["Best First"].append(start - end)
+        timeResults["Best First"].append(end - start)
         spaceResults["Best First"].append(bestFirst.maxQueueSize)
 
         # A*, heuristic 1
         start = time.perf_counter()
-        aStar1 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity)
+        aStar1 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity, SLD_TO_BUCHAREST, heuristic_type=1)
         end = time.perf_counter()
         correctnessResults["A* 1"].append(checkCorrect(aStar1, startCity, endCity))
         cityVisitResults["A* 1"].append(aStar1.numCityVisits)
-        timeResults["A* 1"].append(start - end)
+        timeResults["A* 1"].append(end - start)
         spaceResults["A* 1"].append(aStar1.maxQueueSize)
 
         # A*, heuristic 2
         start = time.perf_counter()
-        aStar2 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity)
+        aStar2 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity, SLD_TO_BUCHAREST, heuristic_type=2)
         end = time.perf_counter()
         correctnessResults["A* 2"].append(checkCorrect(aStar2, startCity, endCity))
         cityVisitResults["A* 2"].append(aStar2.numCityVisits)
-        timeResults["A* 2"].append(start - end)
+        timeResults["A* 2"].append(end - start)
         spaceResults["A* 2"].append(aStar2.maxQueueSize)
 
     # Output
