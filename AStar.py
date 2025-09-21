@@ -13,10 +13,6 @@ class AStarSearch:
         goal: Enum member (goal city)
         sld_bucharest: dict mapping city name string -> straight-line distance to Bucharest
         heuristic_type: 1 or 2, selects triangle inequality heuristic
-    Attributes:
-        searchResult: list of cities in path (empty if not found)
-        numCityVisits: number of nodes expanded
-        maxQueueSize: max frontier size
     """
     
     def __init__(self, graph: Dict[Any, List[Tuple[Any, int]]], start: Any, goal: Any, sld_bucharest: Dict[str,int], heuristic_type: int = 1):
