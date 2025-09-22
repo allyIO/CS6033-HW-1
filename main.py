@@ -81,12 +81,8 @@ ROAD_ADJ_LIST = {
     Cities.ZERIND: [(Cities.ARAD, 75), (Cities.ORADEA, 71)]
 }
 
-def checkCorrect(search, startCity, endCity):
-    # Later add some test cases that the AI can check itself against... not gonna do every combo because I don't hate myself
-    return True
 
 def main():
-    correctnessResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
     optimalityResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
     cityVisitResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
     timeResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
@@ -96,14 +92,11 @@ def main():
         # from Cities enum, randomly pick 2 and use as indices in roadMapAdjList for start and end cities
         startCity = random.choice(list(Cities))
         endCity = random.choice(list(Cities))
-        
-        # print(str(startCity) + " --> " + str(endCity))
 
         # BFS
         start = time.perf_counter()
         bfs = BFS(ROAD_ADJ_LIST, startCity, endCity)
         end = time.perf_counter()
-        correctnessResults["BFS"].append(checkCorrect(bfs, startCity, endCity))
         optimalityResults["BFS"].append(bfs.pathCost)
         cityVisitResults["BFS"].append(bfs.numCityVisits)
         timeResults["BFS"].append(end - start)
@@ -115,7 +108,6 @@ def main():
         start = time.perf_counter()
         dfs = DFS(ROAD_ADJ_LIST, startCity, endCity)
         end = time.perf_counter()
-        correctnessResults["DFS"].append(checkCorrect(dfs, startCity, endCity))
         optimalityResults["DFS"].append(dfs.pathCost)
         cityVisitResults["DFS"].append(dfs.numCityVisits)
         timeResults["DFS"].append(end - start)
@@ -127,7 +119,6 @@ def main():
         start = time.perf_counter()
         bestFirst = BestFirstSearch(ROAD_ADJ_LIST, startCity, endCity)
         end = time.perf_counter()
-        correctnessResults["Best First"].append(checkCorrect(bestFirst, startCity, endCity))
         optimalityResults["Best First"].append(bestFirst.pathCost)
         cityVisitResults["Best First"].append(bestFirst.numCityVisits)
         timeResults["Best First"].append(end - start)
@@ -139,7 +130,6 @@ def main():
         start = time.perf_counter()
         aStar1 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity, SLD_TO_BUCHAREST, heuristic_type=1)
         end = time.perf_counter()
-        correctnessResults["A* 1"].append(checkCorrect(aStar1, startCity, endCity))
         optimalityResults["A* 1"].append(aStar1.pathCost)
         cityVisitResults["A* 1"].append(aStar1.numCityVisits)
         timeResults["A* 1"].append(end - start)
@@ -151,7 +141,6 @@ def main():
         start = time.perf_counter()
         aStar2 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity, SLD_TO_BUCHAREST, heuristic_type=2)
         end = time.perf_counter()
-        correctnessResults["A* 2"].append(checkCorrect(aStar2, startCity, endCity))
         optimalityResults["A* 2"].append(aStar2.pathCost)
         cityVisitResults["A* 2"].append(aStar2.numCityVisits)
         timeResults["A* 2"].append(end - start)
