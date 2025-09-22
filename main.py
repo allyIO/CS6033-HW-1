@@ -4,9 +4,11 @@ from DFS import *
 from BestFirst import *
 from AStar import *
 from enum import Enum
+import sys
 import statistics
 import random
 import time
+import csv
 
 # Romania cities
 class Cities(Enum):
@@ -95,7 +97,7 @@ def main():
         startCity = random.choice(list(Cities))
         endCity = random.choice(list(Cities))
         
-        print(str(startCity) + " --> " + str(endCity))
+        # print(str(startCity) + " --> " + str(endCity))
 
         # BFS
         start = time.perf_counter()
@@ -106,8 +108,8 @@ def main():
         cityVisitResults["BFS"].append(bfs.numCityVisits)
         timeResults["BFS"].append(end - start)
         spaceResults["BFS"].append(bfs.maxQueueSize)
-        print("BFS : " + str(bfs.searchResult))
-        print(" cost "+ str(bfs.pathCost))
+        # print("BFS : " + str(bfs.searchResult))
+        # print(" cost "+ str(bfs.pathCost))
 
         # DFS
         start = time.perf_counter()
@@ -118,8 +120,8 @@ def main():
         cityVisitResults["DFS"].append(dfs.numCityVisits)
         timeResults["DFS"].append(end - start)
         spaceResults["DFS"].append(dfs.maxQueueSize)
-        print("DFS : " + str(dfs.searchResult))
-        print(" cost "+ str(dfs.pathCost))
+        # print("DFS : " + str(dfs.searchResult))
+        # print(" cost "+ str(dfs.pathCost))
 
         # Best First
         start = time.perf_counter()
@@ -130,8 +132,8 @@ def main():
         cityVisitResults["Best First"].append(bestFirst.numCityVisits)
         timeResults["Best First"].append(end - start)
         spaceResults["Best First"].append(bestFirst.maxQueueSize)
-        print("Best: " + str(bestFirst.searchResult))
-        print(" cost "+ str(bestFirst.pathCost))
+        # print("Best: " + str(bestFirst.searchResult))
+        # print(" cost "+ str(bestFirst.pathCost))
 
         # A*, heuristic 1
         start = time.perf_counter()
@@ -142,8 +144,8 @@ def main():
         cityVisitResults["A* 1"].append(aStar1.numCityVisits)
         timeResults["A* 1"].append(end - start)
         spaceResults["A* 1"].append(aStar1.maxQueueSize)
-        print("A* 1: " + str(aStar1.searchResult))
-        print(" cost "+ str(aStar1.pathCost))
+        # print("A* 1: " + str(aStar1.searchResult))
+        # print(" cost "+ str(aStar1.pathCost))
 
         # A*, heuristic 2
         start = time.perf_counter()
@@ -154,14 +156,12 @@ def main():
         cityVisitResults["A* 2"].append(aStar2.numCityVisits)
         timeResults["A* 2"].append(end - start)
         spaceResults["A* 2"].append(aStar2.maxQueueSize)
-        print("A* 2: " + str(aStar2.searchResult))
-        print(" cost "+ str(aStar2.pathCost))
+        # print("A* 2: " + str(aStar2.searchResult))
+        # print(" cost "+ str(aStar2.pathCost))
 
         print()
 
     # Output
-    # In the future, have also print out to csv or excel spreadsheet for easy tabling/graphing... maybe look into pandas
-
     print("Path cost results:")
     print("BFS average: " + str(statistics.mean(optimalityResults["BFS"])))
     print("DFS average: " + str(statistics.mean(optimalityResults["DFS"])))
@@ -189,6 +189,22 @@ def main():
     print("Bes average: " + str(statistics.mean(spaceResults["Best First"])))
     print("A*1 average: " + str(statistics.mean(spaceResults["A* 1"])))
     print("A*2 average: " + str(statistics.mean(spaceResults["A* 2"])))
+
+    # If cmd line arg passed in, treat as a file name to which results can be written.
+    if len(sys.argv) > 1:
+        fileName = sys.argv[1]
+        print("Writing to file "+ fileName)
+
+        for key in optimalityResults:
+            newKey = key.replace("*", "star")
+            with open(fileName+newKey, 'w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(optimalityResults[key])
+                writer.writerow(cityVisitResults[key])
+                writer.writerow(timeResults[key])
+                writer.writerow(spaceResults[key])
+        
+            
 
 if __name__ == "__main__":
     main()
