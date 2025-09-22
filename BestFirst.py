@@ -23,7 +23,7 @@ class BestFirstSearch:
         
         self.maxQueueSize = 1
         
-        print(f"BestFirstSearch initialized. Fringe starts with: {self.fringe}")
+        #print(f"BestFirstSearch initialized. Fringe starts with: {self.fringe}")
 
         self.solve()
     

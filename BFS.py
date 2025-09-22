@@ -7,8 +7,8 @@ class BFS:
         self.startCity = start
         self.endCity = end
         self.map = map
+        self.pathCost = 0
 
-        print("Searching BFS...")
         self.searchResult = None
         self.solve()
 
@@ -29,7 +29,8 @@ class BFS:
 
                 # Check if we reached the end
                 if curr == self.endCity:
-                    self.searchResult = (path, self.calculatePathCost(path))
+                    self.searchResult = path
+                    self.pathCost = self.calculatePathCost(path)
                     return self.searchResult
                 
                 # Each neighbor in the map is a tuple

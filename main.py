@@ -4,6 +4,7 @@ from DFS import *
 from BestFirst import *
 from AStar import *
 from enum import Enum
+import statistics
 import random
 import time
 
@@ -84,11 +85,12 @@ def checkCorrect(search, startCity, endCity):
 
 def main():
     correctnessResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
+    optimalityResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
     cityVisitResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
     timeResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
     spaceResults = {"BFS": [], "DFS": [], "Best First": [], "A* 1": [], "A* 2": []}
 
-    for x in range(5):
+    for x in range(100):
         # from Cities enum, randomly pick 2 and use as indices in roadMapAdjList for start and end cities
         startCity = random.choice(list(Cities))
         endCity = random.choice(list(Cities))
@@ -100,24 +102,31 @@ def main():
         bfs = BFS(ROAD_ADJ_LIST, startCity, endCity)
         end = time.perf_counter()
         correctnessResults["BFS"].append(checkCorrect(bfs, startCity, endCity))
+        optimalityResults["BFS"].append(bfs.pathCost)
         cityVisitResults["BFS"].append(bfs.numCityVisits)
         timeResults["BFS"].append(end - start)
         spaceResults["BFS"].append(bfs.maxQueueSize)
+        print("BFS : " + str(bfs.searchResult))
+        print(" cost "+ str(bfs.pathCost))
 
         # DFS
         start = time.perf_counter()
         dfs = DFS(ROAD_ADJ_LIST, startCity, endCity)
         end = time.perf_counter()
         correctnessResults["DFS"].append(checkCorrect(dfs, startCity, endCity))
+        optimalityResults["DFS"].append(dfs.pathCost)
         cityVisitResults["DFS"].append(dfs.numCityVisits)
         timeResults["DFS"].append(end - start)
         spaceResults["DFS"].append(dfs.maxQueueSize)
+        print("DFS : " + str(dfs.searchResult))
+        print(" cost "+ str(dfs.pathCost))
 
         # Best First
         start = time.perf_counter()
         bestFirst = BestFirstSearch(ROAD_ADJ_LIST, startCity, endCity)
         end = time.perf_counter()
         correctnessResults["Best First"].append(checkCorrect(bestFirst, startCity, endCity))
+        optimalityResults["Best First"].append(bestFirst.pathCost)
         cityVisitResults["Best First"].append(bestFirst.numCityVisits)
         timeResults["Best First"].append(end - start)
         spaceResults["Best First"].append(bestFirst.maxQueueSize)
@@ -129,6 +138,7 @@ def main():
         aStar1 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity, SLD_TO_BUCHAREST, heuristic_type=1)
         end = time.perf_counter()
         correctnessResults["A* 1"].append(checkCorrect(aStar1, startCity, endCity))
+        optimalityResults["A* 1"].append(aStar1.pathCost)
         cityVisitResults["A* 1"].append(aStar1.numCityVisits)
         timeResults["A* 1"].append(end - start)
         spaceResults["A* 1"].append(aStar1.maxQueueSize)
@@ -140,26 +150,45 @@ def main():
         aStar2 = AStarSearch(ROAD_ADJ_LIST, startCity, endCity, SLD_TO_BUCHAREST, heuristic_type=2)
         end = time.perf_counter()
         correctnessResults["A* 2"].append(checkCorrect(aStar2, startCity, endCity))
+        optimalityResults["A* 2"].append(aStar2.pathCost)
         cityVisitResults["A* 2"].append(aStar2.numCityVisits)
         timeResults["A* 2"].append(end - start)
         spaceResults["A* 2"].append(aStar2.maxQueueSize)
         print("A* 2: " + str(aStar2.searchResult))
         print(" cost "+ str(aStar2.pathCost))
 
+        print()
+
     # Output
     # In the future, have also print out to csv or excel spreadsheet for easy tabling/graphing... maybe look into pandas
 
-    print("Correctness results:")
-    print(correctnessResults)
+    print("Path cost results:")
+    print("BFS average: " + str(statistics.mean(optimalityResults["BFS"])))
+    print("DFS average: " + str(statistics.mean(optimalityResults["DFS"])))
+    print("Bes average: " + str(statistics.mean(optimalityResults["Best First"])))
+    print("A*1 average: " + str(statistics.mean(optimalityResults["A* 1"])))
+    print("A*2 average: " + str(statistics.mean(optimalityResults["A* 2"])))
 
     print("Cities visited:")
-    print(cityVisitResults)
+    print("BFS average: " + str(statistics.mean(cityVisitResults["BFS"])))
+    print("DFS average: " + str(statistics.mean(cityVisitResults["DFS"])))
+    print("Bes average: " + str(statistics.mean(cityVisitResults["Best First"])))
+    print("A*1 average: " + str(statistics.mean(cityVisitResults["A* 1"])))
+    print("A*2 average: " + str(statistics.mean(cityVisitResults["A* 2"])))
 
     print("Time results:")
-    print(timeResults)
+    print("BFS average: " + str(statistics.mean(timeResults["BFS"])))
+    print("DFS average: " + str(statistics.mean(timeResults["DFS"])))
+    print("Bes average: " + str(statistics.mean(timeResults["Best First"])))
+    print("A*1 average: " + str(statistics.mean(timeResults["A* 1"])))
+    print("A*2 average: " + str(statistics.mean(timeResults["A* 2"])))
 
     print("Space results:")
-    print(spaceResults)
+    print("BFS average: " + str(statistics.mean(spaceResults["BFS"])))
+    print("DFS average: " + str(statistics.mean(spaceResults["DFS"])))
+    print("Bes average: " + str(statistics.mean(spaceResults["Best First"])))
+    print("A*1 average: " + str(statistics.mean(spaceResults["A* 1"])))
+    print("A*2 average: " + str(statistics.mean(spaceResults["A* 2"])))
 
 if __name__ == "__main__":
     main()

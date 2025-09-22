@@ -5,8 +5,8 @@ class DFS:
         self.startCity = start
         self.endCity = end
         self.map = map
+        self.pathCost = 0
 
-        print("Searching DFS...")
         self.searchResult = None
         self.solve()
 
@@ -27,13 +27,15 @@ class DFS:
 
                 # Check if we reached the end                
                 if curr == self.endCity:
-                    self.searchResult = (path, self.calculatePathCost(path))
+                    self.searchResult = path, 
+                    self.pathCost = self.calculatePathCost(path)
                     return self.searchResult
                 
                 # Each neighbor in the map is a tuple
                 for n, cost in self.map.get(curr, []):
                     if n not in visited:
                         stack.append((n, path + [n]))
+        self.pathCost = None
         return None
 
     def calculatePathCost(self, path):
